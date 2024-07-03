@@ -8,7 +8,7 @@ export default function NewQuestionHeader(props) {
       {...props}
       style={{ borderBottom: "1px solid var(--mb-color-border)" }}
     >
-      <ViewHeading>{t`Pick your starting data`}</ViewHeading>
+      <ViewHeading>{t`Chat with your data`}</ViewHeading>
     </ViewSection>
   );
 }

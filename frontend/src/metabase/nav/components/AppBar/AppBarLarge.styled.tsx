@@ -15,7 +15,7 @@ export const AppBarRoot = styled.div<AppBarRootProps>`
   padding-right: 1rem;
   border-bottom: 1px solid
     ${props => (props.isNavBarOpen ? "var(--mb-color-border)" : "transparent")};
-  background-color: var(--mb-color-bg-white);
+    background: linear-gradient(to bottom, var(--mb-color-navbar-bg), #38508C, #1A253B);
   transition: border-bottom-color 200ms ease;
 `;
 

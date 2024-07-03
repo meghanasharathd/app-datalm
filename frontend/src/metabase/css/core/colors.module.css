@@ -29,6 +29,10 @@
   --mb-color-filter: #7172ad;
   --mb-color-focus: #cbe2f7;
   --mb-color-warning: #f9cf48;
+  --mb-color-navbar-bg: #2E3A59;
+  --mb-color-body-bg: #1E1E2F;
+  --mb-color-bg-silver: #D3D3D3;
+  --mb-color-black: #000000;
 }
 
 .textDefault {

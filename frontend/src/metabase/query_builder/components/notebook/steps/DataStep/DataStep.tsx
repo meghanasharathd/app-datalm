@@ -58,7 +58,7 @@ export const DataStep = ({
         data-testid="data-step-cell"
       >
         <NotebookDataPicker
-          title={t`Pick your starting data`}
+          title={t`Chat with your data`}
           query={query}
           stageIndex={stageIndex}
           table={table}

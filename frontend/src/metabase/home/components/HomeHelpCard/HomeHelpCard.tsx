@@ -22,7 +22,7 @@ export const HomeHelpCard = (): JSX.Element | null => {
   return (
     <CardRoot href={MetabaseSettings.learnUrl()} aria-labelledby={cardTitleId}>
       <CardIcon name="reference" />
-      <CardTitle id={cardTitleId}>{t`${applicationName} tips`}</CardTitle>
+      <CardTitle id={cardTitleId}>{t`DATA LM tips`}</CardTitle>
     </CardRoot>
   );
 };

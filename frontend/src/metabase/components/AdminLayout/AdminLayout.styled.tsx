@@ -24,6 +24,7 @@ export const AdminSidebar = styled.div`
 `;
 
 export const AdminContent = styled.div`
+
   overflow-y: auto;
   flex: 1;
   width: 100%;

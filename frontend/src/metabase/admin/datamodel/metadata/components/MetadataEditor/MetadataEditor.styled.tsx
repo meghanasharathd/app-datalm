@@ -21,5 +21,7 @@ export const MetadataSidebar = styled(AdminSidebar)`
 `;
 
 export const MetadataContent = styled(AdminContent)`
+  /* color: var(--mb-color-bg-white); */
   padding-top: 0;
+
 `;
