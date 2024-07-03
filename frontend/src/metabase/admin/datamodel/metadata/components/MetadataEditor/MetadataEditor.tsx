@@ -71,7 +71,7 @@ const MetadataEditor = ({ databases, params }: MetadataEditorProps) => {
             <div className={cx(CS.full, CS.textCentered)}>
               <h2 className={CS.textMedium}>
                 {hasDatabases
-                  ? t`Select any table to see its schema and add or edit metadata.`
+                  ? t`Select any table to see its schema and add or edit DATA LM data.`
                   : t`The page you asked for couldn't be found.`}
               </h2>
             </div>

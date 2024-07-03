@@ -18,6 +18,7 @@ const Section = styled.section`
 export const SectionTitle = styled.h3`
   font-weight: 900;
   margin-bottom: 1rem;
+
 `;
 
 export const AggregationsContainer = styled(Section)`

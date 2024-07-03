@@ -295,7 +295,7 @@ export const ADMIN_SETTINGS_SECTIONS = {
       {
         key: "map-tile-server-url",
         display_name: t`Map tile server URL`,
-        note: t`Metabase uses OpenStreetMaps by default.`,
+        note: t`DATA LM uses OpenStreetMaps by default.`,
         type: "string",
       },
       {

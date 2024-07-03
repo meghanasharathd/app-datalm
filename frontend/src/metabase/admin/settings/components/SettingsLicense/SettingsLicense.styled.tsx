@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 export const SectionHeader = styled.h4`
   display: block;
-  color: var(--mb-color-text-medium);
+  color: var(--mb-color-bg-white);
   font-weight: bold;
   text-transform: uppercase;
   margin-bottom: 8px;
@@ -13,7 +13,7 @@ export const SectionHeader = styled.h4`
 `;
 
 export const SectionDescription = styled.p`
-  color: var(--mb-color-text-medium);
+  color: var(--mb-color-bg-silver);
   margin-top: 8px;
   margin-bottom: 16px;
   line-height: 1.7em;

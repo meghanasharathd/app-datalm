@@ -7,19 +7,26 @@ import ExternalLink from "metabase/core/components/ExternalLink";
 export const SetupListRoot = styled.div`
   display: flex;
   justify-content: space-between;
+  color: var(--mb-color-bg-silver);
 `;
+
+
 
 const linkStyles = css`
   display: flex;
   align-items: center;
   padding: 1rem;
   border: 1px solid var(--mb-color-border);
+  /* background-color: var(--mb-color-bg-medium); */
+  color: var(--mb-color-bg-silver);
   border-radius: 0.5rem;
   transition: border 0.3s linear;
   text-decoration: none;
 
   &:hover {
     border-color: var(--mb-color-brand);
+    color: var(--mb-color-black);
+    background-color: var(--mb-color-bg-white);
   }
 `;
 

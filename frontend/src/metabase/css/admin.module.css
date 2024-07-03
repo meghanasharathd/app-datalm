@@ -3,6 +3,7 @@
 }
 
 .ContentTable {
+  color: var(--mb-color-bg-white);
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
@@ -10,10 +11,12 @@
 }
 
 .ContentTable thead {
+
   border-bottom: 1px solid var(--mb-color-border);
 }
 
 .PageHeader {
+  color: var(--mb-color-bg-white);
   padding-top: var(--page-header-padding);
   padding-bottom: var(--page-header-padding);
 }
@@ -125,10 +128,12 @@
 }
 
 .MetadataTable {
+  color: var(--mb-color-bg-silver);
   min-width: 800px;
 }
 
 .TableEditorFieldDescription {
+  color: var(--mb-color-bg-silver);
   font-size: 14px;
 }
 

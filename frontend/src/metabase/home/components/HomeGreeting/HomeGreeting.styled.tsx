@@ -4,6 +4,7 @@ import MetabotLogo from "metabase/core/components/MetabotLogo";
 import { breakpointMinExtraLarge } from "metabase/styled-components/theme";
 
 export const GreetingRoot = styled.div`
+
   display: flex;
   align-items: center;
 `;
@@ -24,7 +25,7 @@ export interface GreetingMessageProps {
 }
 
 export const GreetingMessage = styled.span<GreetingMessageProps>`
-  color: var(--mb-color-text-dark);
+  color: var(--mb-color-bg-white);
   font-size: ${props => (props.showLogo ? "1.125rem" : "1.25rem")};
   font-weight: bold;
   line-height: 1.5rem;

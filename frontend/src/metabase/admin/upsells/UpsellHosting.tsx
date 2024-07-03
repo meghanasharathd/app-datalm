@@ -13,20 +13,7 @@ export const UpsellHosting = ({ source }: { source: string }) => {
     return null;
   }
 
-  return (
-    <UpsellCard
-      title={t`Minimize maintenance`}
-      campaign="hosting"
-      buttonText={t`Learn more`}
-      buttonLink="https://www.metabase.com/cloud"
-      illustrationSrc={RocketGlobeIllustrationSrc}
-      source={source}
-    >
-      {jt`${(
-        <strong>{t`Migrate to Metabase Cloud`}</strong>
-      )} for fast, reliable, and secure deployment.`}
-    </UpsellCard>
-  );
+
 };
 
 export const UpsellHostingUpdates = ({ source }: { source: string }) => {
@@ -36,18 +23,5 @@ export const UpsellHostingUpdates = ({ source }: { source: string }) => {
     return null;
   }
 
-  return (
-    <UpsellCard
-      title={t`Get automatic updates`}
-      campaign="hosting"
-      buttonText={t`Learn more`}
-      buttonLink="https://www.metabase.com/cloud"
-      illustrationSrc={RocketGlobeIllustrationSrc}
-      source={source}
-    >
-      {jt`${(
-        <strong>{t`Migrate to Metabase Cloud`}</strong>
-      )} for fast, reliable, and secure deployment.`}
-    </UpsellCard>
-  );
+
 };

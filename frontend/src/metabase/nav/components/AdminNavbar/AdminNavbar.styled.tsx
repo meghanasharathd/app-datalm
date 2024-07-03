@@ -11,7 +11,7 @@ import { ADMIN_NAVBAR_HEIGHT } from "../../constants";
 
 export const AdminNavbarRoot = styled.nav`
   padding: 0.5rem 1rem;
-  background: ${() => color("admin-navbar")};
+  background: linear-gradient(to bottom, var(--mb-color-navbar-bg), #38508C, #1A253B);
   color: var(--mb-color-text-white);
   font-size: 0.85rem;
   height: ${ADMIN_NAVBAR_HEIGHT};

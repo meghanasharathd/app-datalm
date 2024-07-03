@@ -7,6 +7,7 @@ export const SidebarContentRoot = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+
 `;
 
 export const SidebarContentMain = styled.div`

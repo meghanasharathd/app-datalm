@@ -12,19 +12,19 @@ export const UpsellCacheConfig = ({ source }: { source: string }) => {
     return null;
   }
 
-  return (
-    <Box>
-      <UpsellCard
-        title={t`Control your caching`}
-        campaign="cache-granular-controls"
-        buttonText={t`Try Metabase Pro`}
-        buttonLink="https://www.metabase.com/upgrade"
-        source={source}
-      >
-        {jt`Get granular caching controls for each database, dashboard, and query with ${(
-          <strong>{t`Metabase Pro.`}</strong>
-        )}`}
-      </UpsellCard>
-    </Box>
-  );
+  // return (
+  //   <Box>
+  //     <UpsellCard
+  //       title={t`Control your caching`}
+  //       campaign="cache-granular-controls"
+  //       buttonText={t`Try Metabase Pro`}
+  //       buttonLink="https://www.metabase.com/upgrade"
+  //       source={source}
+  //     >
+  //       {jt`Get granular caching controls for each database, dashboard, and query with ${(
+  //         <strong>{t`Metabase Pro.`}</strong>
+  //       )}`}
+  //     </UpsellCard>
+  //   </Box>
+  // );
 };

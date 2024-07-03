@@ -54,7 +54,7 @@ export const NavRoot = styled.nav<{ isOpen: boolean }>`
   box-sizing: border-box;
   padding-top: ${space(1)};
   height: 100%;
-  background-color: transparent;
+  background-color: var( --mb-color-body-bg);
 
   overflow-x: hidden;
   overflow-y: auto;
@@ -76,6 +76,7 @@ export const NavRoot = styled.nav<{ isOpen: boolean }>`
 `;
 
 export const SidebarContentRoot = styled.div`
+
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -90,13 +91,14 @@ export const SidebarSection = styled(Box)<BoxProps>`
 `;
 
 export const SidebarHeadingWrapper = styled.div`
+
   display: flex;
   align-items: center;
   margin-bottom: ${space(1)};
 `;
 
 export const SidebarHeading = styled.h4`
-  color: var(--mb-color-text-medium);
+  color: var(--mb-color-bg-silver);
   font-weight: 700;
   font-size: 11px;
   text-transform: uppercase;

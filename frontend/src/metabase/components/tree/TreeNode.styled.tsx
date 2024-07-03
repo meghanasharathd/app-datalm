@@ -55,6 +55,7 @@ ExpandToggleIcon.defaultProps = {
 };
 
 export const NameContainer = styled.div`
+  color: var(--mb-color-bg-white);
   word-break: break-word;
   padding: 0.5rem 0.5rem 0.5rem 0.25rem;
   flex: 1;

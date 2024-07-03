@@ -4,17 +4,23 @@ import { Link } from "react-router";
 import InputBlurChange from "metabase/components/InputBlurChange";
 
 export const ColumnContainer = styled.section`
-  padding: 1rem 0.5rem 1rem 1rem;
+    padding: 1rem 0.5rem 1rem 1rem;
   margin-top: 0.5rem;
   margin-bottom: 1.5rem;
   display: flex;
   border: 1px solid var(--mb-color-border);
   border-radius: 8px;
+  background: var(--mb-color-initial-bg); /* Initial background color */
 
   &:last-child {
     margin-bottom: 0;
   }
-  background: var(--mb-color-bg-white);
+
+  &:hover {
+    border: 1px solid var(--mb-color-brand);
+    color: var(--mb-color-bg-black);
+    background: var(--mb-color-bg-white); /* Background color on hover */
+  }
 `;
 
 export const ColumnInput = styled(InputBlurChange)`

@@ -12,7 +12,7 @@ export const LayoutRoot = styled.div`
   position: relative;
   min-height: 100%;
   padding: 1rem;
-  background-color: var(--mb-color-bg-light);
+  /* background-color: var( --mb-color-body-bg); */
 
   ${breakpointMinMedium} {
     padding: 3rem 4rem;
@@ -44,7 +44,7 @@ export const LayoutIllustration = styled.div<{
   backgroundImageSrc: string;
   isDefault: boolean;
 }>`
-  position: absolute;
+  /* position: absolute; */
   top: 0;
   left: 0;
   width: 100%;
@@ -60,6 +60,7 @@ export const LayoutIllustration = styled.div<{
 `;
 
 export const LayoutEditButton = styled(Button)`
+  color: var(--mb-color-bg-silver);
   position: absolute;
   top: 0.75rem;
   right: 1rem;
