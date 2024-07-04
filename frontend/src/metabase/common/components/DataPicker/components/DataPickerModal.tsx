@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { t } from "ttag";
 
 import { useSetting } from "metabase/common/hooks";
@@ -64,6 +64,8 @@ export const DataPickerModal = ({
   onChange,
   onClose,
 }: Props) => {
+  const [selectedTab, setSelectedTab] = useState<string | null>(null);
+
   const hasNestedQueriesEnabled = useSetting("enable-nested-queries");
   const { hasQuestions, hasModels, hasMetrics } = useAvailableData({
     databaseId,
@@ -145,7 +147,7 @@ export const DataPickerModal = ({
         }
       : undefined,
     {
-      displayName: t`Tables`,
+      displayName: t`Database`,
       model: "table" as const,
       icon: "table",
       element: (
@@ -177,6 +179,10 @@ export const DataPickerModal = ({
       tab != null && models.includes(tab.model),
   );
 
+  const handleTabClick = (model: string) => {
+    setSelectedTab(model);
+  };
+
   return (
     <EntityPickerModal
       canSelectItem
@@ -189,6 +195,21 @@ export const DataPickerModal = ({
       title={title}
       onClose={onClose}
       onItemSelect={handleChange}
-    />
+      onTabChange={handleTabClick}
+    >
+      {selectedTab === "table" && (
+        <div
+          style={{
+            position: "absolute",
+            right: "0",
+            top: "100px",
+            padding: "200px",
+          }}
+        >
+          <p>Enter your question</p>
+          <input type="text" />
+        </div>
+      )}
+    </EntityPickerModal>
   );
 };

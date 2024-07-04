@@ -7,7 +7,7 @@ import EmptyState from "metabase/components/EmptyState";
 import { VirtualizedList } from "metabase/components/VirtualizedList";
 import { NoObjectError } from "metabase/components/errors/NoObjectError";
 import { trackSearchClick } from "metabase/search/analytics";
-import { Box, Flex, Icon, Stack, Tabs, TextInput } from "metabase/ui";
+import { Box, Flex, Icon, Stack, Tabs } from "metabase/ui";
 import type {
   SearchModel,
   SearchRequest,
@@ -25,7 +25,6 @@ const defaultSearchFilter = (results: SearchResult[]) => results;
 
 export function EntityPickerSearchInput({
   searchQuery,
-  setSearchQuery,
   setSearchResults,
   models,
   searchFilter = defaultSearchFilter,
@@ -61,17 +60,7 @@ export function EntityPickerSearchInput({
     }
   }, [data, isFetching, searchFilter, setSearchResults]);
 
-  return (
-    <TextInput
-      type="search"
-      icon={<Icon name="search" size={16} />}
-      miw={400}
-      mr="2rem"
-      value={searchQuery}
-      onChange={e => setSearchQuery(e.target.value ?? "")}
-      placeholder={t`Search…`}
-    />
-  );
+  return null;
 }
 
 export const EntityPickerSearchResults = <
