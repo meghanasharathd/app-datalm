@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 
 import { Icon, Tabs } from "metabase/ui";
 import type {
@@ -53,6 +53,7 @@ export const TabsView = <
   initialValue,
   defaultToRecentTab,
   setShowActionButtons,
+  onTabChange,
 }: {
   tabs: EntityTab<Model>[];
   onItemSelect: (item: Item) => void;
@@ -63,6 +64,7 @@ export const TabsView = <
   searchParams?: Partial<SearchRequest>;
   defaultToRecentTab: boolean;
   setShowActionButtons: (showActionButtons: boolean) => void;
+  onTabChange: (model: string) => void; // Added prop for handling tab change
 }) => {
   const hasSearchTab = !!searchQuery;
   const hasRecentsTab = tabs.some(tab => tab.model === "recents");
@@ -98,6 +100,14 @@ export const TabsView = <
     }
   }, [selectedTab, setShowActionButtons]);
 
+  const handleTabClick = useCallback(
+    (model: string) => {
+      setSelectedTab(model);
+      onTabChange(model); // Call the passed onTabChange handler
+    },
+    [onTabChange],
+  );
+
   return (
     <Tabs
       value={selectedTab}
@@ -117,7 +127,7 @@ export const TabsView = <
               key={model}
               value={model}
               icon={<Icon name={icon} />}
-              onClick={() => setSelectedTab(model)}
+              onClick={() => handleTabClick(model)}
             >
               {displayName}
             </Tabs.Tab>
@@ -125,7 +135,7 @@ export const TabsView = <
         })}
         {hasSearchTab && (
           <EntityPickerSearchTab
-            onClick={() => setSelectedTab("search")}
+            onClick={() => handleTabClick("search")}
             searchResults={searchResults}
             searchQuery={searchQuery}
           />

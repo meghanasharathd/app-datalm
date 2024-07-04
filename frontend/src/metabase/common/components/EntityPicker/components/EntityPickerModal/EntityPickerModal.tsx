@@ -1,3 +1,6 @@
+// Ensure to export EntityPickerModal correctly
+export { EntityPickerModal };
+
 import { useWindowEvent } from "@mantine/hooks";
 import { useCallback, useMemo, useState } from "react";
 import { t } from "ttag";
@@ -24,7 +27,6 @@ import type {
 import { EntityPickerSearchInput } from "../EntityPickerSearch/EntityPickerSearch";
 import { RecentsTab } from "../RecentsTab";
 
-import { ButtonBar } from "./ButtonBar";
 import {
   GrowFlex,
   ModalBody,
@@ -65,13 +67,14 @@ export interface EntityPickerModalProps<Model extends string, Item> {
   searchParams?: Partial<SearchRequest>;
   actionButtons?: JSX.Element[];
   trapFocus?: boolean;
+  onTabChange?: (model: string) => void;
   /**defaultToRecentTab: If set to true, will initially show the recent tab when the modal appears. If set to false, it will show the tab
    * with the same model as the initialValue. Defaults to true.
    */
   defaultToRecentTab?: boolean;
 }
 
-export function EntityPickerModal<
+function EntityPickerModal<
   Id extends SearchResultId,
   Model extends SearchModel,
   Item extends TypeWithModel<Id, Model>,
@@ -85,7 +88,7 @@ export function EntityPickerModal<
   onClose,
   tabs: passedTabs,
   options,
-  actionButtons = [],
+  //actionButtons = [],
   searchResultFilter,
   recentFilter,
   trapFocus = true,
@@ -105,9 +108,9 @@ export function EntityPickerModal<
   );
   const [logRecentItem] = useLogRecentItemMutation();
 
-  const [showActionButtons, setShowActionButtons] = useState<boolean>(
-    !!actionButtons.length,
-  );
+  // const [showActionButtons, setShowActionButtons] = useState<boolean>(
+  //   !!actionButtons.length,
+  // );
 
   const hydratedOptions = useMemo(
     () => ({ ...defaultOptions, ...options }),
@@ -189,6 +192,16 @@ export function EntityPickerModal<
     { capture: true, once: true },
   );
 
+  const [isDatabaseTabActive, setIsDatabaseTabActive] = useState(false);
+
+  const handleTabChange = (model: string) => {
+    if (model === "table") {
+      setIsDatabaseTabActive(true);
+    } else {
+      setIsDatabaseTabActive(false);
+    }
+  };
+
   return (
     <Modal.Root
       opened={open}
@@ -216,48 +229,57 @@ export function EntityPickerModal<
               />
             )}
           </GrowFlex>
-          <Modal.CloseButton size={21} pos="relative" top="1px" />
+          <Modal.CloseButton size="lg" />
         </Modal.Header>
-        <ModalBody p="0">
+        <ModalBody>
           <ErrorBoundary>
-            {hasTabs ? (
-              <TabsView
-                tabs={tabs}
-                onItemSelect={onItemSelect}
-                searchQuery={searchQuery}
-                searchResults={searchResults}
-                selectedItem={selectedItem}
-                initialValue={initialValue}
-                defaultToRecentTab={defaultToRecentTab}
-                setShowActionButtons={setShowActionButtons}
-              />
-            ) : (
-              <SinglePickerView>{tabs[0].element}</SinglePickerView>
-            )}
-            {!!hydratedOptions.hasConfirmButtons && onConfirm && (
-              <ButtonBar
-                onConfirm={handleConfirm}
-                onCancel={onClose}
-                canConfirm={canSelectItem}
-                actionButtons={showActionButtons ? actionButtons : []}
-                confirmButtonText={options?.confirmButtonText}
-                cancelButtonText={options?.cancelButtonText}
-              />
-            )}
+            <SinglePickerView>
+              {hasTabs && (
+                <TabsView
+                  tabs={tabs}
+                  onItemSelect={onItemSelect}
+                  searchQuery={searchQuery}
+                  searchResults={searchResults}
+                  selectedItem={selectedItem}
+                  initialValue={initialValue}
+                  defaultToRecentTab={defaultToRecentTab}
+                  setShowActionButtons={setShowActionButtons}
+                  onTabChange={handleTabChange} // Pass the onTabChange handler
+                />
+              )}
+              {isDatabaseTabActive && (
+                <div>
+                  <h3>Enter your question</h3>
+                  <input type="text" />
+                </div>
+              )}
+            </SinglePickerView>
           </ErrorBoundary>
         </ModalBody>
+        <div
+          style={{
+            padding: "0.5rem",
+            borderTop: "1px solid #ccc",
+            textAlign: "right",
+          }}
+        >
+          <button onClick={onClose} style={{ marginRight: "0.5rem" }}>
+            Cancel
+          </button>
+          <button onClick={handleConfirm} disabled={!canSelectItem}>
+            Confirm
+          </button>
+        </div>
       </ModalContent>
     </Modal.Root>
   );
 }
 
-const assertValidProps = (
+function assertValidProps(
   options: EntityPickerModalOptions,
-  onConfirm: (() => void) | undefined,
-) => {
+  onConfirm?: () => void,
+): asserts options is Required<EntityPickerModalOptions> {
   if (options.hasConfirmButtons && !onConfirm) {
-    throw new Error(
-      "onConfirm prop is required when hasConfirmButtons is true",
-    );
+    throw new Error("onConfirm is required when hasConfirmButtons is true");
   }
-};
+}
