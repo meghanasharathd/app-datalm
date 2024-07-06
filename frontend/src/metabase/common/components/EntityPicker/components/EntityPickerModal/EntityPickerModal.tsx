@@ -1,22 +1,18 @@
-// Ensure to export EntityPickerModal correctly
-export { EntityPickerModal };
-
 import { useWindowEvent } from "@mantine/hooks";
-import { useCallback, useMemo, useState } from "react";
+import { useState, useMemo, type SetStateAction } from "react";
 import { t } from "ttag";
 
 import ErrorBoundary from "metabase/ErrorBoundary";
-import { useLogRecentItemMutation, useListRecentsQuery } from "metabase/api";
+import { useListRecentsQuery } from "metabase/api";
 import { BULK_ACTIONS_Z_INDEX } from "metabase/components/BulkActionBar";
 import { useModalOpen } from "metabase/hooks/use-modal-open";
 import { Modal } from "metabase/ui";
-import {
-  isLoggableActivityModel,
-  type RecentItem,
-  type SearchModel,
-  type SearchRequest,
-  type SearchResult,
-  type SearchResultId,
+import type {
+  RecentItem,
+  SearchModel,
+  SearchRequest,
+  SearchResult,
+  SearchResultId,
 } from "metabase-types/api";
 
 import type {
@@ -32,6 +28,12 @@ import {
   ModalBody,
   ModalContent,
   SinglePickerView,
+  ChatWithDataView,
+  HeaderChatWithView,
+  InputChatWithView,
+  ButtonContainerView,
+  ButtonView,
+  QueryButtonView,
 } from "./EntityPickerModal.styled";
 import { TabsView } from "./TabsView";
 
@@ -67,28 +69,22 @@ export interface EntityPickerModalProps<Model extends string, Item> {
   searchParams?: Partial<SearchRequest>;
   actionButtons?: JSX.Element[];
   trapFocus?: boolean;
-  onTabChange?: (model: string) => void;
-  /**defaultToRecentTab: If set to true, will initially show the recent tab when the modal appears. If set to false, it will show the tab
-   * with the same model as the initialValue. Defaults to true.
-   */
   defaultToRecentTab?: boolean;
 }
 
-function EntityPickerModal<
+export function EntityPickerModal<
   Id extends SearchResultId,
   Model extends SearchModel,
   Item extends TypeWithModel<Id, Model>,
 >({
   title = t`Choose an item`,
   onItemSelect,
-  canSelectItem,
-  onConfirm,
   selectedItem,
   initialValue,
   onClose,
   tabs: passedTabs,
   options,
-  //actionButtons = [],
+  actionButtons = [],
   searchResultFilter,
   recentFilter,
   trapFocus = true,
@@ -106,18 +102,13 @@ function EntityPickerModal<
   const [searchResults, setSearchResults] = useState<SearchResult[] | null>(
     null,
   );
-  const [logRecentItem] = useLogRecentItemMutation();
 
-  // const [showActionButtons, setShowActionButtons] = useState<boolean>(
-  //   !!actionButtons.length,
-  // );
+  const [, setShowActionButtons] = useState<boolean>(!!actionButtons.length);
 
   const hydratedOptions = useMemo(
     () => ({ ...defaultOptions, ...options }),
     [options],
   );
-
-  assertValidProps(hydratedOptions, onConfirm);
 
   const { open } = useModalOpen();
 
@@ -169,18 +160,6 @@ function EntityPickerModal<
 
   const hasTabs = tabs.length > 1 || searchQuery;
 
-  const handleConfirm = useCallback(() => {
-    if (onConfirm) {
-      onConfirm();
-      if (selectedItem && isLoggableActivityModel(selectedItem)) {
-        logRecentItem({
-          model_id: selectedItem.id,
-          model: selectedItem.model,
-        });
-      }
-    }
-  }, [onConfirm, logRecentItem, selectedItem]);
-
   useWindowEvent(
     "keydown",
     event => {
@@ -193,12 +172,42 @@ function EntityPickerModal<
   );
 
   const [isDatabaseTabActive, setIsDatabaseTabActive] = useState(false);
+  const [userInput, setUserInput] = useState("");
 
   const handleTabChange = (model: string) => {
     if (model === "table") {
       setIsDatabaseTabActive(true);
     } else {
       setIsDatabaseTabActive(false);
+    }
+  };
+
+  const handleInputChange = (event: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    setUserInput(event.target.value);
+  };
+
+  const handleViewResultsClick = async () => {
+    try {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/posts",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ query: userInput }),
+        },
+      );
+
+      const data = await response.json();
+      // eslint-disable-next-line no-console
+      console.log(data);
+      // Handle the API response as needed
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error("Error fetching data:", error);
     }
   };
 
@@ -233,53 +242,77 @@ function EntityPickerModal<
         </Modal.Header>
         <ModalBody>
           <ErrorBoundary>
-            <SinglePickerView>
-              {hasTabs && (
-                <TabsView
-                  tabs={tabs}
-                  onItemSelect={onItemSelect}
-                  searchQuery={searchQuery}
-                  searchResults={searchResults}
-                  selectedItem={selectedItem}
-                  initialValue={initialValue}
-                  defaultToRecentTab={defaultToRecentTab}
-                  setShowActionButtons={setShowActionButtons}
-                  onTabChange={handleTabChange} // Pass the onTabChange handler
+            {hasTabs ? (
+              <TabsView
+                tabs={tabs}
+                onItemSelect={onItemSelect}
+                searchQuery={searchQuery}
+                searchResults={searchResults}
+                selectedItem={selectedItem}
+                initialValue={initialValue}
+                defaultToRecentTab={defaultToRecentTab}
+                setShowActionButtons={setShowActionButtons}
+                onTabChange={handleTabChange}
+              />
+            ) : (
+              <SinglePickerView>{tabs[0].element}</SinglePickerView>
+            )}
+
+            {isDatabaseTabActive && (
+              <ChatWithDataView>
+                <HeaderChatWithView>Enter your question</HeaderChatWithView>
+                <InputChatWithView
+                  value={userInput}
+                  onChange={handleInputChange}
                 />
-              )}
-              {isDatabaseTabActive && (
-                <div>
-                  <h3>Enter your question</h3>
-                  <input type="text" />
-                </div>
-              )}
-            </SinglePickerView>
+                <ButtonContainerView>
+                  <QueryButtonView
+                    style={{
+                      border: "1px solid #ccc",
+                      backgroundColor: "transparent",
+                      color: "#000",
+                      marginLeft: "8px",
+                    }}
+                  >
+                    Query 1
+                  </QueryButtonView>
+                  <QueryButtonView
+                    style={{
+                      border: "1px solid #ccc",
+                      backgroundColor: "transparent",
+                      color: "#000",
+                      marginLeft: "8px",
+                    }}
+                  >
+                    Query 2
+                  </QueryButtonView>
+                  <QueryButtonView
+                    style={{
+                      border: "1px solid #ccc",
+                      backgroundColor: "transparent",
+                      color: "#000",
+                      marginLeft: "8px",
+                    }}
+                  >
+                    Query 3
+                  </QueryButtonView>
+                </ButtonContainerView>
+                <ButtonContainerView>
+                  <ButtonView onClick={handleViewResultsClick}>
+                    View Results
+                  </ButtonView>
+                  <ButtonView
+                    style={{ backgroundColor: "#5e5959" }}
+                    onClick={onClose}
+                  >
+                    Go Back
+                  </ButtonView>
+                </ButtonContainerView>
+              </ChatWithDataView>
+            )}
           </ErrorBoundary>
         </ModalBody>
-        <div
-          style={{
-            padding: "0.5rem",
-            borderTop: "1px solid #ccc",
-            textAlign: "right",
-          }}
-        >
-          <button onClick={onClose} style={{ marginRight: "0.5rem" }}>
-            Cancel
-          </button>
-          <button onClick={handleConfirm} disabled={!canSelectItem}>
-            Confirm
-          </button>
-        </div>
       </ModalContent>
     </Modal.Root>
   );
-}
-
-function assertValidProps(
-  options: EntityPickerModalOptions,
-  onConfirm?: () => void,
-): asserts options is Required<EntityPickerModalOptions> {
-  if (options.hasConfirmButtons && !onConfirm) {
-    throw new Error("onConfirm is required when hasConfirmButtons is true");
-  }
 }

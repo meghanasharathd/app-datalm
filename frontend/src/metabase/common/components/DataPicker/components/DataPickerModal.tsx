@@ -83,10 +83,6 @@ export const DataPickerModal = ({
     return createShouldShowItem(["card"], databaseId);
   }, [databaseId]);
 
-  const searchParams = useMemo(() => {
-    return databaseId ? { table_db_id: databaseId } : undefined;
-  }, [databaseId]);
-
   const handleChange = useCallback(
     (item: NotebookDataPickerValueItem) => {
       if (!isValidValueItem(item.model)) {
@@ -185,31 +181,11 @@ export const DataPickerModal = ({
 
   return (
     <EntityPickerModal
-      canSelectItem
-      defaultToRecentTab={false}
-      initialValue={value}
-      options={options}
-      searchParams={searchParams}
-      selectedItem={value ?? null}
-      tabs={tabs}
       title={title}
+      tabs={tabs}
+      selectedTab={selectedTab}
+      onTabClick={handleTabClick}
       onClose={onClose}
-      onItemSelect={handleChange}
-      onTabChange={handleTabClick}
-    >
-      {selectedTab === "table" && (
-        <div
-          style={{
-            position: "absolute",
-            right: "0",
-            top: "100px",
-            padding: "200px",
-          }}
-        >
-          <p>Enter your question</p>
-          <input type="text" />
-        </div>
-      )}
-    </EntityPickerModal>
+    />
   );
 };
